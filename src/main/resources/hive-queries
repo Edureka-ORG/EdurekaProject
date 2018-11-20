@@ -1,0 +1,26 @@
+case class Elp(name:String, age:Int, address:String)
+val e1 = Elp("Harry",24,"Manhattan")
+val e2 = Elp("Marry",21,"WhiteField")
+val e3 = Elp("Tom",24,"Mumbai")
+
+val input = Seq(e1,e2,e3);
+
+import spark.implicits._;
+
+val eDF = input.toDF
+eDF.show()
+
+eDF.select("name","age","address").write.mode("append").format("parquet").save("hdfs:/user/edureka_144865/spark-hive/ELP/")
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS BATCH291018ELP(name String,age Int,address String)
+STORED AS PARQUET
+LOCATION 'hdfs:/user/edureka_144865/spark-hive/ELP/';
+
+
+select * from BATCH291018ELP;
+
+
+spark.sql("select * from BATCH291018ELP").show
+
+spark.sql("select * from BATCH291018ELP where age > 22").show

@@ -1,0 +1,13 @@
+#START FLUME #
+
+flume-ng agent --conf conf --conf-file flume-kafka.conf --name agent1 -Dflume.root.logger=INFO,console
+
+#START CONSUMER
+
+spark2-submit --verbose --master yarn --deploy-mode client --repositories https://repo.maven.apache.org/maven2 --packages org.apache.spark:spark-streaming-kafka-0-10_2.11:2.0.0 --class com.edureka.consumer.SparkStreamingConsumer sparkdemo-batch291018_2.11-1.0-SNAPSHOT.jar
+
+
+#START PRODUCER
+
+spark2-shell --verbose --conf spark.extraListeners=com.edureka.listener.MySparkListener --conf spark.driver.extraClassPath=/mnt/home/edureka_144865/sparkdemo-batch291018_2.11-1.0-SNAPSHOT.jar --conf spark.driver.extraClassPath=/opt/cloudera/parcels/SPARK2-2.1.0.cloudera2-1.cdh5.7.0.p0.171658/lib/spark2/kafka-0.9/*
+spark2-shell --verbose --conf spark.extraListeners=com.edureka.listener.MySparkListener --conf spark.driver.extraClassPath=/mnt/home/edureka_144865/sparkdemo-batch291018_2.11-1.0-SNAPSHOT.jar --repositories https://repo.maven.apache.org/maven2 --packages org.apache.spark:spark-streaming-kafka-0-10_2.11:2.0.0

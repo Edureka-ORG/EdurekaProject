@@ -1,0 +1,72 @@
+mysql -h mysqldb.edu.cloudlab.com -u labuser -p edureka
+
+############ in Mysql ############
+use sqoop_demo;
+select * from customers;
+
+###################################
+
+sqoop import \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka \
+--table customers \
+--target-dir /user/edureka_144865/SQOOP \
+--split-by id \
+-m 4
+
+
+sqoop export \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka \
+--table customers \
+--export-dir /user/edureka_144865/SQOOP \
+-m 4
+
+sqoop list-databases \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka 
+
+
+sqoop list-tables \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka 
+
+sqoop codegen \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka \
+--table customers
+
+sqoop import \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka \
+--table customers \
+--where "age > 13" \
+--target-dir /user/edureka_144865/SQOOP2 \
+--split-by id \
+-m 1
+
+
+sqoop import \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka \
+--table customers \
+--target-dir /user/edureka_144865/SQOOP \
+--split-by id \
+--incremental append \
+--check-column id \
+--last-value 14 \
+-m 1 
+
+
+sqoop eval \
+--connect jdbc:mysql://mysqldb.edu.cloudlab.com/sqoop_demo \
+--username labuser \
+--password edureka \
+--query "select * from customers order by id " 

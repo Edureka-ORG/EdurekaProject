@@ -1,0 +1,20 @@
+# CREATE A TOPIC
+
+kafka-topics --create --zookeeper ip-20-0-21-161.ec2.internal:2181 --replication-factor 1 --partitions 1 --topic BATCH29102
+018-TOPIC
+
+#LIST THE TOPICS
+kafka-topics --list --zookeeper ip-20-0-21-161.ec2.internal:2181
+
+#START CONSOLE PRODUCER
+kafka-console-producer --broker-list ip-20-0-31-210.ec2.internal:9092 --topic BATCH29102018-TOPIC
+
+#START CONSOLE CONSUMER
+kafka-console-consumer --zookeeper ip-20-0-21-161.ec2.internal:2181 --topic BATCH29102018-TOPIC
+
+#### FLUME COMMANDS ###
+
+flume-ng agent --conf conf --conf-file flume.conf --name a1 -Dflume.root.logger=INFO,console
+
+
+flume-ng agent --conf conf --conf-file flume-kafka.conf --name agent1 -Dflume.root.logger=INFO,console
