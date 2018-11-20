@@ -34,6 +34,23 @@ sqoop list-databases --connect jdbc:mysql://sqoopdb.edu.cloudlab.com --username 
 sqoop import --connect jdbc:mysql://sqoopdb.edu.cloudlab.com/edurekaproject \
  --username labuser -password edureka \
  --table application_train -m 1 --target-dir /user/edureka_144865/edurekaproject/sqoop/
+ 
+ 
+ ### KAFKA ###
+ 
+ ### Create kafka topic
+ 
+ kafka-topics --create --zookeeper ip-20-0-21-161.ec2.internal:2181 --replication-factor 1 --partitions 1 --topic edurekaproject
+ 
+### Test the kafka topic
+kafka-console-producer --broker-list ip-20-0-31-4.ec2.internal:9092 --topic edurekaproject
+kafka-console-consumer --zookeeper ip-20-0-21-161.ec2.internal:2181 --topic edurekaproject -frombeginning
+
+
+###Compile and package the jar using sbt package
+##Execute the scala program:
+spark2-submit --jars /opt/cloudera/parcels/SPARK2/lib/spark2/kafka-0.9/spark-streaming-kafka-0-8_2.11-2.1.0.cloudera2.jar --class com.edureka.loanrepayment.LoanRepaymentStreaming --deploy-mode client target/scala-2.11/sparkme-project_2.11-1.0.jar
+
 
 
 

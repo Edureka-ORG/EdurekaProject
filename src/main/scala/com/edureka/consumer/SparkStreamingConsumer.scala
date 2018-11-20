@@ -1,15 +1,11 @@
 package com.edureka.consumer
 
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
-import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.Seconds
-import org.apache.spark.storage.StorageLevel
-import org.apache.spark.streaming.kafka010.KafkaUtils
-import org.apache.spark.streaming.kafka010.LocationStrategies
-import org.apache.spark.streaming.kafka010.ConsumerStrategies
-import com.edureka.producer.ProducerUtil
-import org.apache.kafka.common.serialization.StringDeserializer
+import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.kafka.KafkaUtils
 
 object SparkStreamingConsumer {
   def main(args: Array[String]): Unit =
@@ -38,16 +34,29 @@ object SparkStreamingConsumer {
 
       val topics = Array("BATCH29102018-TOPIC");
 
-      val dStream = KafkaUtils.createDirectStream[String, String](
+      val topicMap = "BATCH29102018-TOPIC".split(",").map((_, 1)).toMap
+
+      val lines = KafkaUtils.createStream(
         ssc,
-        LocationStrategies.PreferConsistent,
-        ConsumerStrategies.Subscribe[String, String](topics, mandatoryOptions));
+        "ip-20-0-21-161.ec2.internal:2181 ",
+        "spark-streamingconsumer",
+        topicMap).map(_._2)
+
+      //      val dStream = KafkaUtils.createDirectStream[String, String](
+      //        ssc,
+      //        LocationStrategies.PreferConsistent,
+      //        ConsumerStrategies.Subscribe[String, String](topics, mandatoryOptions));
 
       //Create InputDStreams
 
-      dStream.foreachRDD { rdd =>
-        rdd.foreach(CR => println(CR.key() + "," + CR.value()));
+      lines.foreachRDD { rdd =>
+        if (!rdd.isEmpty) {
+          rdd.foreach(println);
+        }
       }
+      //      lines.foreachRDD { rdd =>
+      //        rdd.foreach(CR => println(CR.key() + "," + CR.value()));
+      //      }
 
       ssc.start();
       ssc.awaitTermination()
