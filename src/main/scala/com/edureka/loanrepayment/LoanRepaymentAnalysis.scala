@@ -8,8 +8,6 @@ object LoanRepaymentAnalysis {
 
   def main(args: Array[String]): Unit = {
 
-    println("WordCount-Spark");
-
     val sparkConf = new SparkConf();
     sparkConf.setAppName("Loan-Repayment-analysis");
     //    sparkConf.setMaster("yarn);
