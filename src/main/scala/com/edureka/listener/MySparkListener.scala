@@ -20,10 +20,10 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import com.edureka.producer.ProducerUtil
 import org.apache.kafka.clients.producer.KafkaProducer
-
+//spark2-shell --verbose --conf spark.extraListeners=com.edureka.listener.MySparkListener --driver-class-path=edurekaproject_2.11-1.0.jar --jars edurekaproject_2.11-1.0.jar --master local[*] --deploy-mode client
 class MySparkListener extends SparkListener
 {
-  val topic = "BATCH29102018-TOPIC";
+  val topic = "BATCH09022019-TOPIC";
   var producer: KafkaProducer[String, String] = null;
   def publishEvent(event:SparkListenerEvent)
   {

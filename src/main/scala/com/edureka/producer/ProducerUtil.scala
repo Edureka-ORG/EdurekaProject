@@ -13,7 +13,7 @@ object ProducerUtil {
       "acks" -> "all",
       "batch.size" -> 16384,
       "buffer.memory" -> 33554432,
-      "group.id" -> "BATCH291018-Kafka-SparkListener",
+      "group.id" -> "BATCH09022019-Kafka-SparkListener",
       "key.serializer" -> "org.apache.kafka.common.serialization.StringSerializer",
       "value.serializer" -> "org.apache.kafka.common.serialization.StringSerializer",
       "auto.offset.reset" -> "earliest",
